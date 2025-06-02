@@ -49,5 +49,21 @@ namespace MvcTodoApp.Controllers
                 task.IsComplete = true;
             return RedirectToAction("Index");
         }
+
+        /// <summary>
+        /// تنفيذ عملية التعديل بعد إرسال النموذج.
+        /// </summary>
+        [HttpPost]
+        public IActionResult EditTask(TaskItem updatedTask)
+        {
+            var existingTask = tasks.FirstOrDefault(t => t.Id == updatedTask.Id);
+            if (existingTask != null)
+            {
+                existingTask.Title = updatedTask.Title;
+                existingTask.IsComplete = updatedTask.IsComplete;
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

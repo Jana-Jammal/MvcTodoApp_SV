@@ -5,6 +5,25 @@
 <head>
     <meta charset="utf-8" />
     <title>تطبيق المهام اليومية - MVC</title>
+    <style>
+        .edit-form {
+            display: none;
+            margin-top: 5px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function toggleEditForm(id) {
+            var form = document.getElementById('edit-form-' + id);
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'inline-block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>قائمة المهام اليومية</h1>
@@ -19,11 +38,19 @@
                 else
                 {
                     @task.Title
+
                     <form method="post" asp-action="CompleteTask" style="display:inline;">
                         <input type="hidden" name="id" value="@task.Id" />
                         <button type="submit">اكتملت</button>
                     </form>
 
+                    <button type="button" onclick="toggleEditForm(@task.Id)">تعديل</button>
+
+                    <form id="edit-form-@task.Id" method="post" asp-action="EditTask" class="edit-form">
+                        <input type="hidden" name="Id" value="@task.Id" />
+                        <input type="text" name="Title" value="@task.Title" />
+                        <button type="submit">حفظ</button>
+                    </form>
                 }
             </li>
         }
